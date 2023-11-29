@@ -62,8 +62,15 @@ class Predictor(BasePredictor):
         """Run a single prediction on the model"""
         outputs = []
        
-        cond = Image.open(str(image))
-        image_filename = "original" + image.suffix
+        image_path = Path(image)
+
+        print(image_path)
+
+        cond = Image.open(str(image_path))
+        print(cond)
+        image_filename = "original" + image_path.suffix
+
+        print(image_filename)
 
         # optional background removal step
         if remove_background:
