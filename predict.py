@@ -77,7 +77,7 @@ class Predictor(BasePredictor):
             rembg_session = rembg.new_session()
             cond = rembg.remove(cond, session=rembg_session)
             # image should be a png after background removal
-            image_filename += ".png"
+            #image_filename += ".png"
         
         if return_intermediate_images:
             temp_original = f"./tmp/{image_filename}"
