@@ -4,28 +4,29 @@
 import os
 import subprocess
 from typing import List
-
+import requests
 import rembg
 import torch
 from cog import BasePredictor, Input, Path
 from diffusers import DiffusionPipeline, EulerAncestralDiscreteScheduler
 from PIL import Image
 
-WEIGHTS_CACHE = "/src/weights/zero123plusplus"
+WEIGHTS_CACHE = "./weights/zero123plusplus"
 CHECKPOINT_URLS = [
     ("https://weights.replicate.delivery/default/zero123plusplus/zero123plusplus.tar", WEIGHTS_CACHE),
 ]
 
 def download_model(url, dest):
     print("Downloading weights...")
-    try:
-        output = subprocess.check_output(["pget", "-x", url, "/src/tmp"])
-    except subprocess.CalledProcessError as e:
-        # If download fails, clean up and re-raise exception
-        print(e.output)
-        raise e
+    response = requests.get(url, stream=True)
     
-    os.rename("/src/tmp/zero123plusplus", dest)
+    if response.status_code == 200:
+        with open(dest, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192): 
+                f.write(chunk)
+        print("Download completed successfully.")
+    else:
+        print(f"Failed to download. Status code: {response.status_code}")
 
 
 class Predictor(BasePredictor):
