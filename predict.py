@@ -89,3 +89,4 @@ class Predictor(BasePredictor):
 predictor = Predictor()
 print(predictor)
 predictor.setup()
+print(predictor.pipeline)
