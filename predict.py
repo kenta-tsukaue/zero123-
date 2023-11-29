@@ -73,20 +73,25 @@ class Predictor(BasePredictor):
             image_filename += ".png"
         
         if return_intermediate_images:
-            temp_original = f"/tmp/{image_filename}"
+            temp_original = f"./tmp/{image_filename}"
             cond.save(temp_original)
             outputs.append(temp_original)
 
         all_results = self.pipeline(cond, num_inference_steps=75)
         for i, output_img in enumerate(all_results.images):
-            filename = f"/tmp/output{i}.jpg"
+            filename = f"./tmp/output{i}.jpg"
             output_img.save(filename)
             outputs.append(filename)
         
         return([Path(output) for output in outputs])
 
 
-predictor = Predictor()
-print(predictor)
-predictor.setup()
-print(predictor.pipeline)
+#メイン関数
+def main():
+    predictor = Predictor()
+    predictor.setup()
+    outputs = predictor.predict("./resources/examples/ghost-eating-burger.png", True, True)
+    print(outputs)
+
+if __name__ == "__main__":
+    main()
