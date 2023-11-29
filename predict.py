@@ -85,7 +85,6 @@ class Predictor(BasePredictor):
         return([Path(output) for output in outputs])
 
 
-
-
-
-
+predictor = Predictor()
+print(Predictor)
+predictor.setup()
