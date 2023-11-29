@@ -43,7 +43,7 @@ class Predictor(BasePredictor):
         print("Setting up pipeline...")
         
         self.pipeline = DiffusionPipeline.from_pretrained(
-            "./weights/zero123plusplus", 
+            "weights/zero123plusplus", 
             custom_pipeline="./diffusers-support/",
             torch_dtype=torch.float16, 
             local_files_only=True
