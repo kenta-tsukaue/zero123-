@@ -297,7 +297,17 @@ class Zero123PlusPipeline(diffusers.StableDiffusionPipeline):
         safety_checker=None,
     ):
         DiffusionPipeline.__init__(self)
-
+        print(
+            "\nvae\n", vae,
+            "\ntext_encoder\n", text_encoder,
+            "\ntokenizer\n", tokenizer,
+            "\nunet\n", unet,
+            "\nscheduler\n", scheduler,
+            "\nvision_encoder\n", vision_encoder,
+            "\nfeature_extractor_clip\n", feature_extractor_clip, 
+            "\nfeature_extractor_vae\n", feature_extractor_vae,
+            "\nramping_coefficients\n", ramping_coefficients
+            )
         self.register_modules(
             vae=vae, text_encoder=text_encoder, tokenizer=tokenizer,
             unet=unet, scheduler=scheduler, safety_checker=None,
@@ -305,9 +315,11 @@ class Zero123PlusPipeline(diffusers.StableDiffusionPipeline):
             feature_extractor_clip=feature_extractor_clip,
             feature_extractor_vae=feature_extractor_vae
         )
+        print("\nregister_modules\n",self.register_modules)
         self.register_to_config(ramping_coefficients=ramping_coefficients)
         self.vae_scale_factor = 2 ** (len(self.vae.config.block_out_channels) - 1)
         self.image_processor = VaeImageProcessor(vae_scale_factor=self.vae_scale_factor)
+        print("\nself.image_processor\n", self.image_processor)
 
     def prepare(self):
         train_sched = DDPMScheduler.from_config(self.scheduler.config)
